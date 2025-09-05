@@ -29,7 +29,8 @@ const empleado1: Empleado = {
 };
 
 🧁 La intersección con interfaces
-Este también funcina con "interface".
+Este también funciona con "interface".
+
 Ejemplo sencillo: interface Estudiante {
   carrera: string;
   semestre: number;
