@@ -17,7 +17,8 @@ type Trabajador = {
   salario: number;
 };
 
-// Intersección: debe tener las propiedades de Persona y Trabajador
+Intersección: debe tener las propiedades de Persona y Trabajador
+
 type Empleado = Persona & Trabajador;
 
 const empleado1: Empleado = {
