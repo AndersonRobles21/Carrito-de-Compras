@@ -2,6 +2,7 @@
 🧁 Investigación 🧁
 
 🧁 ¿Qué es una intersección de tipos?
+
 En TypeScript, una intersección de tipos (&) permite combinar múltiples tipos en uno solo.
 El nuevo tipo resultante debe cumplir con todas las propiedades de los tipos combinados.
 
@@ -51,7 +52,9 @@ const juan: EstudianteDeportista = {
 };
 
 🧁 Uso en funciones 
+
 Se pueden usar intersecciones para parámetros más estricto.
+
 Ejemplo sencillo: type Identificable = { id: number };
 type ConNombre = { nombre: string };
 
@@ -63,6 +66,7 @@ mostrarInfo({ id: 1, nombre: "Carlos" }); // válido
 // mostrarInfo({ id: 2 }); error, falta "nombre"
 
 🧁 Demo completa en TypeScript
+
 // Tipos base
 type Usuario = {
   id: number;
