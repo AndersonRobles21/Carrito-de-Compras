@@ -1,6 +1,8 @@
-import { carritoProductos, carritoClientes, carritoVendibles } from "./carrito";
-
+import { carritoProductos } from "./carrito";
 import * as readline from "readline";
+
+// Este archivo implementa un menú interactivo para gestionar un carrito de compras simple.
+// El usuario puede agregar productos (físico o digital) y listarlos usando la terminal.
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -11,74 +13,61 @@ function pregunta(mensaje: string): Promise<string> {
   return new Promise((resolve) => rl.question(mensaje, resolve));
 }
 
+// Muestra el menú principal en consola
 function menu() {
-  console.log(`
-==============================
-      CARRITO DE COMPRAS
-==============================
-1. Agregar producto (Union)
-2. Agregar cliente (Type normal)
-3. Agregar producto vendible (Intersección)
-4. Listar productos
-5. Listar clientes
-6. Listar vendibles
-0. Salir
-`);
+  console.clear();
+  console.log("==============================");
+  console.log("      CARRITO DE COMPRAS");
+  console.log("==============================");
+  console.log("1. Agregar producto");
+  console.log("2. Listar productos");
+  console.log("0. Salir");
+  console.log("==============================\n");
 }
 
 async function main() {
   let opcion: string;
   do {
     menu();
-    opcion = (await pregunta("Elige una opción: ")).trim();
+  // Solicita al usuario una opción del menú
+  opcion = (await pregunta("Elige una opción: ")).trim();
 
     switch (opcion) {
       case "1": {
+        // Agregar un producto al carrito (físico o digital)
         const id = Number(await pregunta("ID: "));
         const nombre = await pregunta("Nombre: ");
         const precio = Number(await pregunta("Precio: "));
         const tipo = (await pregunta("Tipo (fisico/digital): ")).toLowerCase();
-
         if (tipo === "fisico") {
           const peso = Number(await pregunta("Peso (kg): "));
           carritoProductos.agregarItem({ id, nombre, precio, tipo: "fisico", peso });
-        } else {
+        } else if (tipo === "digital") {
           const formato = await pregunta("Formato (ej: PDF): ");
           carritoProductos.agregarItem({ id, nombre, precio, tipo: "digital", formato });
+        } else {
+          console.log("Tipo de producto no válido. Solo se permite 'fisico' o 'digital'.");
+          break;
         }
+        console.log("Producto agregado correctamente.");
+        await pregunta("Presiona Enter para continuar...");
         break;
       }
       case "2": {
-        const id = Number(await pregunta("ID cliente: "));
-        const nombre = await pregunta("Nombre cliente: ");
-        carritoClientes.agregarItem({ id, nombre });
-        break;
-      }
-      case "3": {
-        const id = Number(await pregunta("ID producto: "));
-        const nombre = await pregunta("Nombre producto: ");
-        const precio = Number(await pregunta("Precio: "));
-        const stock = Number(await pregunta("Stock disponible: "));
-        carritoVendibles.agregarItem({ id, nombre, precio, stock });
-        break;
-      }
-      case "4":
-        console.log("\n=== Carrito de productos (Union) ===");
+        // Listar productos del carrito
+        console.log("\n=== Carrito de productos ===");
         console.log(carritoProductos.listar());
+        await pregunta("Presiona Enter para continuar...");
         break;
-      case "5":
-        console.log("\n=== Carrito de clientes (Type normal) ===");
-        console.log(carritoClientes.listar());
-        break;
-      case "6":
-        console.log("\n=== Carrito de productos vendibles (Intersección) ===");
-        console.log(carritoVendibles.listar());
-        break;
+      }
       case "0":
-        console.log("Saliendo...");
+        // Salir del programa
+        console.log("Gracias por usar el carrito de compras. ¡Hasta luego!");
         break;
       default:
+        // Opción inválida
         console.log("Opción inválida.");
+        await pregunta("Presiona Enter para continuar...");
     }
   } while (opcion !== "0");
 
