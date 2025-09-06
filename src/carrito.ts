@@ -23,5 +23,5 @@ export class Carrito<T> {
 
 // ---------------- Carritos instanciados ----------------
 export const carritoProductos = new Carrito<ProductoUnion>();
-export const carritoClientes = new Carrito<Cliente>();
-export const carritoVendibles = new Carrito<Vendible>();
+
+
