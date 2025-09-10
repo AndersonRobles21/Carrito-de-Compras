@@ -4,8 +4,8 @@
   "scripts": {
     "start": "ts-node src/index.ts"
   },
-  "dependencies": {},
   "devDependencies": {
+    "@types/node": "^24.3.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   }
