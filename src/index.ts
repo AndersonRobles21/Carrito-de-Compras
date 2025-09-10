@@ -91,6 +91,7 @@ Carrito actual: ${
 5. actualizar cantidad del producto
 6. Seleccionar carrito por nombre
 7. Lista de todos los carritos
+8. Eliminar carrito por nombre
 0. Salir
 ==============================`);
 }
@@ -106,7 +107,7 @@ function preguntar() {
             preguntar();
             return;
           }
-          if (carritos.some((c) => c.nombre === nombre)) {
+          if (carritos.some((si) => si.nombre === nombre)) {
             console.log("❌ Ya existe un carrito con ese nombre.");
             preguntar();
             return;
@@ -208,6 +209,25 @@ function preguntar() {
           });
         }
         preguntar();
+        break;
+
+
+      case "8": // Eliminar carrito por nombre
+        if (carritos.length === 0) {
+          console.log("❌ No hay carritos creados.");
+          preguntar();
+          return;
+        }
+        rl.question("Nombre del carrito a eliminar: ", (nombre) => {
+          const index = carritos.findIndex((c) => c.nombre === nombre);
+          if (index === -1) {
+            console.log("❌ Carrito no encontrado.");
+          } else {
+            carritos.splice(index, 1);
+            console.log(`🗑️ Carrito '${nombre}' eliminado.`);
+          }
+          preguntar();
+        });
         break;
 
       case "0":
