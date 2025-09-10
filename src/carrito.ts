@@ -21,6 +21,28 @@ export class Carrito {
     console.log(`✅ Producto agregado: ${nombre}`);
   }
 
+  // Listar productos y factura
+  listarProductos(): void {
+    if (this.productos.length === 0) {
+      console.log("🛒 El carrito está vacío.");
+      return;
+    }
+
+    console.log("\n========= FACTURA =========");
+    let total = 0;
+    this.productos.forEach((p, index) => {
+      const subtotal = p.precio * p.cantidad;
+      total += subtotal;
+      // Mostrar el ID del producto en la factura
+      console.log(
+        `${index + 1}. [ID:${p.id}] ${p.nombre} - $${p.precio} x ${p.cantidad} = $${subtotal}`
+      );
+    });
+    console.log("----------------------------");
+    console.log(`TOTAL: $${total}`);
+    console.log("============================\n");
+  }
+
   // Eliminar producto por ID
   eliminarProducto(id: number): void {
     this.productos = this.productos.filter(p => p.id !== id);
@@ -38,7 +60,7 @@ export class Carrito {
     }
   }
 
-  // Mostrar productos
+  // Mostrar productos (solo lista, sin factura)
   mostrarProductos(): void {
     console.log("\n📋 Lista de productos:");
     if (this.productos.length === 0) {

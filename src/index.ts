@@ -53,7 +53,7 @@ function mostrarMenu() {
         break;
 
       case "4":
-        carrito.mostrarProductos();
+        carrito.listarProductos();
         mostrarMenu();
         break;
 
