@@ -57,8 +57,9 @@ export class CarritoProductos {
     this.productos.forEach((p, index) => {
       const subtotal = p.precio * p.cantidad;
       total += subtotal;
+      // Mostrar el ID del producto en la factura
       console.log(
-        `${index + 1}. ${p.nombre} - $${p.precio} x ${p.cantidad} = $${subtotal}`
+        `${index + 1}. [ID:${p.id}] ${p.nombre} - $${p.precio} x ${p.cantidad} = $${subtotal}`
       );
     });
     console.log("----------------------------");
