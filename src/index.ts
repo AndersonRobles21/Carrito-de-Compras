@@ -211,7 +211,7 @@ function preguntar() {
         break;
 
       case "0":
-        console.log("Gracias por usar nuestra tienda online.");
+        console.log("Gracias por usar nuestra tienda online Vuelve pronto.");
         rl.close();
         break;
 
