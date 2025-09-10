@@ -1,12 +1,20 @@
 import * as readline from "readline";
 import { Carrito } from "./carrito";
 
-const carrito = new Carrito();
-
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
+
+let carrito: Carrito;
+
+function iniciarPrograma() {
+  rl.question("¿Cómo se llama tu carrito? ", (nombreCarrito: string) => {
+    carrito = new Carrito(nombreCarrito);
+    console.log(`🛒 Carrito "${nombreCarrito}" creado con éxito!`);
+    mostrarMenu();
+  });
+}
 
 function mostrarMenu() {
   console.log(`
@@ -14,7 +22,7 @@ function mostrarMenu() {
 1. Agregar producto
 2. Eliminar producto
 3. Actualizar cantidad
-4. Mostrar productos
+4. Mostrar factura
 5. Salir
   `);
 
@@ -70,4 +78,4 @@ function mostrarMenu() {
   });
 }
 
-mostrarMenu();
+iniciarPrograma();

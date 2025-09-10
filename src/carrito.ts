@@ -6,8 +6,13 @@ export interface Producto {
 }
 
 export class Carrito {
+  private nombre: string;
   private productos: Producto[] = [];
   private idCounter: number = 1;
+
+  constructor(nombre: string) {
+    this.nombre = nombre;
+  }
 
   // Agregar producto (el id se genera automáticamente)
   agregarProducto(nombre: string, precio: number, cantidad: number): void {
@@ -19,28 +24,6 @@ export class Carrito {
     };
     this.productos.push(nuevo);
     console.log(`✅ Producto agregado: ${nombre}`);
-  }
-
-  // Listar productos y factura
-  listarProductos(): void {
-    if (this.productos.length === 0) {
-      console.log("🛒 El carrito está vacío.");
-      return;
-    }
-
-    console.log("\n========= FACTURA =========");
-    let total = 0;
-    this.productos.forEach((p, index) => {
-      const subtotal = p.precio * p.cantidad;
-      total += subtotal;
-      // Mostrar el ID del producto en la factura
-      console.log(
-        `${index + 1}. [ID:${p.id}] ${p.nombre} - $${p.precio} x ${p.cantidad} = $${subtotal}`
-      );
-    });
-    console.log("----------------------------");
-    console.log(`TOTAL: $${total}`);
-    console.log("============================\n");
   }
 
   // Eliminar producto por ID
@@ -60,18 +43,24 @@ export class Carrito {
     }
   }
 
-  // Mostrar productos (solo lista, sin factura)
-  mostrarProductos(): void {
-    console.log("\n📋 Lista de productos:");
+  // Factura con el nombre del carrito
+  listarProductos(): void {
     if (this.productos.length === 0) {
-      console.log("El carrito está vacío.\n");
+      console.log("🛒 El carrito está vacío.");
       return;
     }
-    this.productos.forEach(p =>
+
+    console.log(`\n========= FACTURA (${this.nombre}) =========`);
+    let total = 0;
+    this.productos.forEach((p, index) => {
+      const subtotal = p.precio * p.cantidad;
+      total += subtotal;
       console.log(
-        `ID: ${p.id} | ${p.nombre} | $${p.precio} | Cantidad: ${p.cantidad}`
-      )
-    );
-    console.log();
+        `${index + 1}. [ID:${p.id}] ${p.nombre} - $${p.precio} x ${p.cantidad} = $${subtotal}`
+      );
+    });
+    console.log("----------------------------");
+    console.log(`TOTAL: $${total}`);
+    console.log("============================\n");
   }
 }
