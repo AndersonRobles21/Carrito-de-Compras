@@ -72,3 +72,29 @@ class Carrito {
 
 
 🔴🔴Anderson Topaga🔴🔴 
+🧿Andrey Llanos🧿
+src/producto.ts — Producto
+
+Responsabilidad declarada: Representar un producto con atributos básicos.
+
+S (Single Responsibility)
+
+Diagnóstico: ✅ Cumple.
+
+Justificación: Solo representa datos de un producto.
+Única razón de cambio: modificación de la estructura de datos de un producto.
+
+O (Open/Closed)
+
+Diagnóstico: ✅ Cumple.
+
+Justificación: Se puede extender agregando más propiedades mediante interfaces o herencia, sin modificar el código original.
+
+4. Conclusiones
+
+Carrito necesita refactor para separar responsabilidades y permitir extensibilidad.
+
+Producto ya cumple con S y O.
+
+Propuesta: aplicar estrategias de precio y repositorios para separar la persistencia de la lógica de negocio, siguiendo SOLID.
+🧿Andrey Llanos🧿
