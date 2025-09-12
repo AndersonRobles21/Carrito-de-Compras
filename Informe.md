@@ -22,7 +22,6 @@ Responsabilidad declarada: Gestionar productos en el carrito (agregar, eliminar,
 *S (Single Responsibility)*
 - Diagnóstico: ❌ *No cumple totalmente.*
 - Justificación: Actualmente, Carrito mezcla varias responsabilidades:
-  - Lógica de negocio (gestión de productos).
   - Posiblemente interacción directa con consola en algunos métodos.
 - Riesgo: Acoplamiento fuerte y dificultad para mantener/pruebas unitarias.
 🧁 Laura Orejuela 🧁
