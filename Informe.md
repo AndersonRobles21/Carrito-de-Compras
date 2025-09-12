@@ -25,6 +25,7 @@ Mezcla varias responsabilidades:
 
 
 🔴🔴Anderson Topaga🔴🔴
+
 *O (Open/Closed)*
 - Diagnóstico: ❌ *No cumple.*
 - Justificación: La lógica de cálculo  está fija en la clase.  
