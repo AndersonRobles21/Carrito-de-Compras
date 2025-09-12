@@ -21,11 +21,7 @@ Responsabilidad declarada: Gestionar productos en el carrito (agregar, eliminar,
 
 
 Evaluación según SRP (Single Responsibility Principle)
-Este archivo tiene una sola responsabilidad: gestionar la interacción por consola.
-
-No guarda datos ni implementa lógica de negocio.
-
-Solo recibe datos del usuario, llama a métodos del carrito y muestra resultados.
+Mezcla varias responsabilidades:
 
 
 🔴🔴Anderson Topaga🔴🔴
