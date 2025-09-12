@@ -19,12 +19,13 @@ Módulos relevantes:
 ### 3.1 src/carrito.ts — Carrito
 Responsabilidad declarada: Gestionar productos en el carrito (agregar, eliminar, listar, calcular total).
 
-*S (Single Responsibility)*
-- Diagnóstico: ❌ *No cumple totalmente.*
-- Justificación: Actualmente, Carrito mezcla varias responsabilidades:
-  - Posiblemente interacción directa con consola en algunos métodos.
-- Riesgo: Acoplamiento fuerte y dificultad para mantener/pruebas unitarias.
-🧁 Laura Orejuela 🧁
+
+Evaluación según SRP (Single Responsibility Principle)
+Este archivo tiene una sola responsabilidad: gestionar la interacción por consola.
+
+No guarda datos ni implementa lógica de negocio.
+
+Solo recibe datos del usuario, llama a métodos del carrito y muestra resultados.
 
 
 🔴🔴Anderson Topaga🔴🔴
