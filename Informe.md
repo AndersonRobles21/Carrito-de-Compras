@@ -12,89 +12,63 @@ Módulos relevantes:
 - index.ts: punto de entrada con la interacción por consola.
 
 ## 2. Inventario de Clases Analizadas
-- Clase 1: src/carrito.ts — Carrito  
-- Clase 2: src/producto.ts — Producto
+- Clase 1: src/Inventario  
 
 ## 3. Análisis por Clase
 
-### 3.1 src/carrito.ts — Carrito
-Responsabilidad declarada: Gestionar productos en el carrito (agregar, eliminar, listar, calcular total).
+Evaluación según SRP (Single Responsibility Principle)
 
-*S (Single Responsibility)*
-- Diagnóstico: ❌ *No cumple totalmente.*
-- Justificación: Actualmente, Carrito mezcla varias responsabilidades:
-  - Lógica de negocio (gestión de productos).
-  - Cálculo de totales.
-  - Posiblemente interacción directa con consola en algunos métodos.
-- Riesgo: Acoplamiento fuerte y dificultad para mantener/pruebas unitarias.
-🧁 Laura Orejuela 🧁
+✅ Cumple
 
+Este archivo tiene una sola responsabilidad: gestionar la interacción por consola.
 
-🔴🔴Anderson Topaga🔴🔴
-*O (Open/Closed)*
-- Diagnóstico: ❌ *No cumple.*
-- Justificación: La lógica de cálculo (ej. total con descuentos, impuestos, promociones) está fija en la clase.  
-  Para extender habría que modificar el código directamente.
+No guarda datos ni implementa lógica de negocio.
 
-*Refactor propuesto*
-``ts
- Antes
-class Carrito {
-  private productos: Producto[] = [];
+Solo recibe datos del usuario, llama a métodos del carrito y muestra resultados.
 
-  agregar(producto: Producto) { /* ... */ }
-  eliminar(id: number) { /* ... */ }
-  calcularTotal(): number { /* lógica fija */ }
-  mostrar() { console.log(this.productos); }
-}
+3. Evaluación según OCP (Open/Closed Principle)
 
-// Después (aplicando S y O)
-interface EstrategiaPrecio {
-  calcular(productos: Producto[]): number;
-}
+🔴 No cumple del todo
 
-class PrecioSimple implements EstrategiaPrecio {
-  calcular(productos: Producto[]) {
-    return productos.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
+Aunque este archivo en sí está bien, carritoProductos (probablemente en carrito.ts) sigue devolviendo datos con console.log o cadenas formateadas.
+
+Si mañana quisieras mostrar los productos en un frontend web o devolverlos en formato JSON para una API, tendrías que modificar carrito.ts.
+
+💡 Propuesta de mejora para cumplir OCP:
+
+Hacer que carritoProductos.listar() devuelva un arreglo, no un string con formato.
+
+Formatear e imprimir el resultado aquí (en el index), no dentro de carrito.ts.
+
+export class Carrito {
+  private productos: any[] = [];
+
+  agregarItem(producto: any) {
+    this.productos.push(producto);
+  }
+
+  listar(): any[] {
+    // ✅ Devuelve los datos sin preocuparse por cómo se muestran
+    return this.productos;
   }
 }
 
-class Carrito {
-  constructor(
-    private estrategia: EstrategiaPrecio,
-    private productos: Producto[] = []
-  ) {}
+export const carritoProductos = new Carrito();
 
-  agregar(producto: Producto) { this.productos.push(producto); }
-  eliminar(id: number) { this.productos = this.productos.filter(p => p.id !== id); }
-  calcularTotal() { return this.estrategia.calcular(this.productos); }
-}
+✅ Beneficio:
+
+carrito.ts no depende de console.log.
+
+Ahora es reutilizable en web, API REST, aplicación móvil o consola, sin necesidad de modificar la lógica.
+
+Cumples el principio OCP porque puedes cambiar la forma en que presentas los datos sin tocar la clase Carrito.
 
 
-🔴🔴Anderson Topaga🔴🔴 
-🧿Andrey Llanos🧿
-src/producto.ts — Producto
+Conclusion
+Mejoras para cumplir completamente con OCP:
 
-Responsabilidad declarada: Representar un producto con atributos básicos.
+Quitar cualquier console.log o console.table de carrito.ts.
 
-S (Single Responsibility)
+Hacer que listar() devuelva datos puros.
 
-Diagnóstico: ✅ Cumple.
-
-Justificación: Solo representa datos de un producto.
-Única razón de cambio: modificación de la estructura de datos de un producto.
-
-O (Open/Closed)
-
-Diagnóstico: ✅ Cumple.
-
-Justificación: Se puede extender agregando más propiedades mediante interfaces o herencia, sin modificar el código original.
-
-4. Conclusiones
-
-Carrito necesita refactor para separar responsabilidades y permitir extensibilidad.
-
-Producto ya cumple con S y O.
-
-Propuesta: aplicar estrategias de precio y repositorios para separar la persistencia de la lógica de negocio, siguiendo SOLID.
-🧿Andrey Llanos🧿
+Centralizar la lógica de impresión en index.ts.
