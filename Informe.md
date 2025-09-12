@@ -13,7 +13,6 @@ Módulos relevantes:
 
 ## 2. Inventario de Clases Analizadas
 - Clase 1: src/carrito.ts — Carrito  
-- Clase 2: src/producto.ts — Producto
 
 ## 3. Análisis por Clase
 
