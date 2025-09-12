@@ -32,12 +32,10 @@ Responsabilidad declarada: Gestionar productos en el carrito (agregar, eliminar,
 - Diagnóstico: ❌ *No cumple.*
 - Justificación: La lógica de cálculo  está fija en la clase.  
   Para extender habría que modificar el código directamente.
-
-
-
-🔴🔴Anderson Topaga🔴🔴 
+  
 🧿Andrey Llanos🧿
 
+  Hacer que carritoProductos.listar() devuelva un arreglo, no un string con formato.
 
 4. Conclusiones
 
