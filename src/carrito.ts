@@ -1,95 +1,87 @@
-import { Producto } from "./types";
-
-// ------------------------------
-// 🛒 Carrito genérico
-// ------------------------------
-export class Carrito<T> {
-  private productos: T[] = [];
-  private contadorId: number = 1;
-
-  agregarProducto(producto: T): void {
-    this.productos.push(producto);
-    console.log("✅ Producto agregado al carrito genérico.");
-  }
-
-  listarProductos(): void {
-    console.log("📦 Productos en el carrito genérico:", this.productos);
-  }
-
-  getItems(): T[] {
-    return this.productos;
-  }
+export interface Producto {
+  id: number;
+  nombre: string;
+  precio: number;
+  cantidad: number;
 }
 
-// ------------------------------
-// 🛒 Carrito real con factura
-// ------------------------------
-export class CarritoProductos {
+// ---------------------------------------------------
+// 📌 Clase Carrito<T>
+// ---------------------------------------------------
+export class Carrito<T> {
+  private nombre: string;
   private productos: Producto[] = [];
   private contadorId: number = 1;
 
-  // Agregar producto con validaciones
-  agregarProducto(nombre: string, precio: number, cantidad: number): void {
-    if (!nombre || precio <= 0 || cantidad <= 0) {
-      console.log("❌ Datos inválidos. Verifique nombre, precio y cantidad.");
-      return;
-    }
+  constructor(nombre: string) {
+    this.nombre = nombre;
+  }
 
-    const producto: Producto = {
+  // ---------------------------------------------------
+  // ✅ S: Esta clase tiene más de una responsabilidad:
+  //   - Maneja productos (agregar, eliminar, actualizar)
+  //   - También imprime facturas en consola
+  //   -> Eso son 2 razones de cambio distintas (gestión de datos y presentación).
+  //   Refactor sugerido: separar en 2 clases
+  //   (ej: Carrito solo gestiona productos, y otra clase Factura/Reporte imprime).
+  // Solución: separar en 2 clases (Carrito solo maneja productos, otra clase Factura/Reporte muestra resultados)
+  //
+  // ✅ O: Actualmente NO está bien cerrada a modificación.
+  //   - Si quiero cambiar el método de impresión (factura en consola → HTML o JSON),
+  //     tendría que modificar esta clase.
+  //   - Para cumplir O, se podría usar una interfaz IImpresoraFactura
+  //     y pasarla por inyección de dependencias, o usar polimorfismo.
+  // Solución: usar una interfaz o estrategia de impresión (ej: IFacturaPrinter) y pasarla por composición.
+
+  // ---------------------------------------------------
+
+  // Agregar producto (el id se genera automáticamente)
+  agregarProducto(nombre: string, precio: number, cantidad: number): void {
+    const nuevo: Producto = {
       id: this.contadorId++,
       nombre,
       precio,
       cantidad,
     };
-    this.productos.push(producto);
-    console.log(`✅ Producto agregado: ${nombre} (x${cantidad})`);
+    this.productos.push(nuevo);
+    console.log(`✅ Producto agregado: ${nombre}`);
   }
 
-  // Listar productos y factura
+  // Eliminar producto por ID
+  eliminarProducto(id: number): void {
+    this.productos = this.productos.filter(p => p.id !== id);
+    console.log(`🗑️ Producto con id ${id} eliminado`);
+  }
+
+  // Actualizar cantidad
+  actualizarCantidad(id: number, nuevaCantidad: number): void {
+    const producto = this.productos.find(p => p.id === id);
+    if (producto) {
+      producto.cantidad = nuevaCantidad;
+      console.log(`🔄 Cantidad actualizada para ${producto.nombre}`);
+    } else {
+      console.log(`⚠️ No se encontró el producto con id ${id}`);
+    }
+  }
+
+  // Factura con el nombre del carrito
   listarProductos(): void {
     if (this.productos.length === 0) {
       console.log("🛒 El carrito está vacío.");
       return;
     }
 
-    console.log("\n========= FACTURA =========");
+    console.log(`\n========= FACTURA (${this.nombre}) =========`);
     let total = 0;
     this.productos.forEach((p, index) => {
       const subtotal = p.precio * p.cantidad;
       total += subtotal;
-      // Mostrar el ID del producto en la factura
       console.log(
         `${index + 1}. [ID:${p.id}] ${p.nombre} - $${p.precio} x ${p.cantidad} = $${subtotal}`
       );
     });
     console.log("----------------------------");
     console.log(`TOTAL: $${total}`);
-    console.log("============================\n");
-  }
-
-  // Eliminar producto
-  eliminarProducto(id: number): void {
-    const index = this.productos.findIndex((p) => p.id === id);
-    if (index === -1) {
-      console.log("❌ Producto no encontrado.");
-      return;
-    }
-    const eliminado = this.productos.splice(index, 1)[0];
-    console.log(`🗑️ Producto eliminado: ${eliminado.nombre}`);
-  }
-
-  // Actualizar cantidad
-  actualizarCantidad(id: number, nuevaCantidad: number): void {
-    if (nuevaCantidad <= 0) {
-      console.log("❌ La cantidad debe ser mayor a 0.");
-      return;
-    }
-    const producto = this.productos.find((p) => p.id === id);
-    if (!producto) {
-      console.log("❌ Producto no encontrado.");
-      return;
-    }
-    producto.cantidad = nuevaCantidad;
-    console.log(`✏️ Cantidad actualizada: ${producto.nombre} (x${nuevaCantidad})`);
+    console.log("===========================\n");
   }
 }
