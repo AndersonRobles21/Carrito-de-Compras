@@ -27,6 +27,7 @@ Responsabilidad declarada: Gestionar productos en el carrito (agregar, eliminar,
   - Cálculo de totales.
   - Posiblemente interacción directa con consola en algunos métodos.
 - Riesgo: Acoplamiento fuerte y dificultad para mantener/pruebas unitarias.
+  
 🧁 Laura Orejuela 🧁
 
 
@@ -70,9 +71,10 @@ class Carrito {
   calcularTotal() { return this.estrategia.calcular(this.productos); }
 }
 
-
 🔴🔴Anderson Topaga🔴🔴 
+
 🧿Andrey Llanos🧿
+
 src/producto.ts — Producto
 
 Responsabilidad declarada: Representar un producto con atributos básicos.
@@ -97,4 +99,5 @@ Carrito necesita refactor para separar responsabilidades y permitir extensibilid
 Producto ya cumple con S y O.
 
 Propuesta: aplicar estrategias de precio y repositorios para separar la persistencia de la lógica de negocio, siguiendo SOLID.
+
 🧿Andrey Llanos🧿
