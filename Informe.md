@@ -1,6 +1,4 @@
-🧁 Laura Orejuela 🧁
-
- Informe SOLID (S y O) — Proyecto: Carrito de Compras
+                                                  Informe SOLID (S y O) — Proyecto: Carrito de Compras
 1. Contexto
 Este proyecto implementa un sistema simple de carrito de compras en TypeScript.
 El usuario puede crear un carrito, añadir Type y gestionarlos mediante un menú interactivo en consola.
@@ -15,16 +13,17 @@ index.ts: punto de entrada con la interacción por consola.
 
 2. Inventario de Clases Analizadas
 
-Clase 1: src/carrito.ts — Carrito
+                                                     Clase 1: src/carrito.ts — Carrito
 
-Clase 2: src/Type.ts — Type
+                                                         Clase 2: src/Type.ts — Type
 
 3. Análisis por Clase
-3.1 src/carrito.ts — Carrito
+
+                                                            3.1 src/carrito.ts — Carrito
 
 Responsabilidad declarada: Gestionar Type en el carrito (agregar, eliminar, listar, calcular total).
 
-S (Single Responsibility)
+                                                  S (Single Responsibility)
 
 Diagnóstico: ❌ No cumple.
 
@@ -38,7 +37,7 @@ Se encarga de formatear el listado para mostrarlo en consola.
 
 Riesgo si se mantiene así: Aumento del acoplamiento y dificultad para probar cada parte por separado.
 
-O (Open/Closed)
+                                             O (Open/Closed)
 
 Diagnóstico: ❌ No cumple.
 
@@ -50,13 +49,13 @@ Refactor propuesto (antes → después)
 
 Responsabilidad declarada: Representar un Type (nombre, precio, cantidad).
 
-S (Single Responsibility)
+                                    S (Single Responsibility)
 
 Diagnóstico: ✅ Cumple.
 
 Justificación: Solo representa datos de un type. No mezcla lógicas adicionales.
 
-O (Open/Closed)
+                                        O (Open/Closed)
 
 Diagnóstico: ✅ Cumple.
 ```ts
