@@ -59,7 +59,27 @@ Justificación: Solo representa datos de un producto. No mezcla lógicas adicion
 O (Open/Closed)
 
 Diagnóstico: ✅ Cumple.
+```ts
+import * as readline from "readline";
+import { IEntradaUsuario } from "./interfaces";
 
+export class ConsolaEntradaUsuario implements IEntradaUsuario {
+  private rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  preguntar(pregunta: string): Promise<string> {
+    return new Promise((resolve) => {
+      this.rl.question(pregunta, (respuesta) => resolve(respuesta));
+    });
+  }
+
+  cerrar() {
+    this.rl.close();
+  }
+}
+```
 Justificación: Puede extenderse fácilmente (ej. añadiendo un campo de categoría o descuento) sin modificar la estructura existente.
 
 4. Conclusiones
