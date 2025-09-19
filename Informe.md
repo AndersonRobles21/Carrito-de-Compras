@@ -2,7 +2,6 @@
 
  Informe SOLID (S y O) — Proyecto: Carrito de Compras
 1. Contexto
-2. 
 Este proyecto implementa un sistema simple de carrito de compras en TypeScript.
 El usuario puede crear un carrito, añadir productos y gestionarlos mediante un menú interactivo en consola.
 
