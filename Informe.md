@@ -68,6 +68,7 @@ La clase Carrito necesita refactor para separar responsabilidades y permitir ext
 La clase Type ya cumple con S y O.
 
                                               📂 src/carrito.ts
+                                              ``
 // ✅ Liskov Substitution Principle (LSP):
 // - Aquí no tengo jerarquías de clases ni herencia directa.
 // - Como no hay clases hijas que extiendan de Carrito, técnicamente el principio se cumple
@@ -83,6 +84,19 @@ La clase Type ya cumple con S y O.
 //   - IGestorProductos (agregar, eliminar, actualizar)
 //   - IImpresoraFactura (mostrar o exportar factura)
 //   Así Carrito no tendría que cargar con todo a la vez.
+
+```ts
+// Interfaz para impresión de facturas
+export interface IFacturaPrinter {
+  imprimir(nombreCarrito: string, productos: { id: number; nombre: string; precio: number; cantidad: number }[]): void;
+}
+
+// Interfaz para entrada de usuario (puede ser consola, web, etc.)
+export interface IEntradaUsuario {
+  preguntar(pregunta: string): Promise<string>;
+}
+
+```
 
 // ❌ Dependency Inversion Principle (DIP):
 // - Carrito depende directamente de `console.log`, es decir, de un detalle de bajo nivel.
