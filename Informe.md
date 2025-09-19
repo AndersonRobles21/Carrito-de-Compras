@@ -1,45 +1,72 @@
-🧁Laura Orejuela🧁
+🧁 Laura Orejuela 🧁
 
-# Informe SOLID (S y O) — Proyecto: Carrito de Compras
-
-## 1. Contexto
-Este proyecto implementa un sistema simple de *carrito de compras* en TypeScript.  
-El usuario puede crear un carrito, añadir productos, y gestionarlos mediante un menú interactivo en consola.
+ Informe SOLID (S y O) — Proyecto: Carrito de Compras
+1. Contexto
+2. 
+Este proyecto implementa un sistema simple de carrito de compras en TypeScript.
+El usuario puede crear un carrito, añadir productos y gestionarlos mediante un menú interactivo en consola.
 
 Módulos relevantes:
-- Carrito: clase principal que gestiona los productos.
-- Producto: estructura que representa un producto (nombre, precio, cantidad).
-- index.ts: punto de entrada con la interacción por consola.
 
-## 2. Inventario de Clases Analizadas
-- Clase 1: src/carrito.ts — Carrito  
+Carrito: clase principal que gestiona los productos.
 
-## 3. Análisis por Clase
+Producto: estructura que representa un producto (nombre, precio, cantidad).
 
-### 3.1 src/carrito.ts — Carrito
+index.ts: punto de entrada con la interacción por consola.
+
+2. Inventario de Clases Analizadas
+
+Clase 1: src/carrito.ts — Carrito
+
+Clase 2: src/producto.ts — Producto
+
+3. Análisis por Clase
+3.1 src/carrito.ts — Carrito
+
 Responsabilidad declarada: Gestionar productos en el carrito (agregar, eliminar, listar, calcular total).
 
+S (Single Responsibility)
 
-Evaluación según SRP (Single Responsibility Principle)
-Mezcla varias responsabilidades:
+Diagnóstico: ❌ No cumple.
 
+Justificación: La clase gestiona múltiples responsabilidades:
 
-🔴🔴Anderson Topaga🔴🔴
+Maneja la lista de productos.
 
-*O (Open/Closed)*
-- Diagnóstico: ❌ *No cumple.*
-- Justificación: La lógica de cálculo  está fija en la clase.  
-  Para extender habría que modificar el código directamente.
-  
-🧿Andrey Llanos🧿
+Calcula el total del carrito.
 
-  Hacer que carritoProductos.listar() devuelva un arreglo, no un string con formato.
+Se encarga de formatear el listado para mostrarlo en consola.
+
+Riesgo si se mantiene así: Aumento del acoplamiento y dificultad para probar cada parte por separado.
+
+O (Open/Closed)
+
+Diagnóstico: ❌ No cumple.
+
+Justificación: La lógica de cálculo y de presentación están fijas. Para extender precios con descuentos o cambiar el formato de impresión habría que modificar la clase directamente.
+
+Refactor propuesto (antes → después)
+
+3.2 src/producto.ts — Producto
+
+Responsabilidad declarada: Representar un producto (nombre, precio, cantidad).
+
+S (Single Responsibility)
+
+Diagnóstico: ✅ Cumple.
+
+Justificación: Solo representa datos de un producto. No mezcla lógicas adicionales.
+
+O (Open/Closed)
+
+Diagnóstico: ✅ Cumple.
+
+Justificación: Puede extenderse fácilmente (ej. añadiendo un campo de categoría o descuento) sin modificar la estructura existente.
 
 4. Conclusiones
 
-Carrito necesita refactor para separar responsabilidades y permitir extensibilidad.
+La clase Carrito necesita refactor para separar responsabilidades y permitir extensibilidad.
 
-Producto ya cumple con S y O.
+La clase Producto ya cumple con S y O.
 
-Propuesta: aplicar estrategias de precio y repositorios para separar la persistencia de la lógica de negocio, siguiendo SOLID.
-🧿Andrey Llanos🧿
+Propuesta: aplicar estrategias de precios y formateadores de salida para seguir SOLID.
