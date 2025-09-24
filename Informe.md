@@ -124,6 +124,28 @@ export interface IEntradaUsuario {
 //   solo definiciones abstractas de tipos e interfaces.
 // - Por tanto, cumple DIP al 100%.
 
+```ts
+/export interface Producto {
+  id: number;
+  nombre: string;
+  precio: number;
+  cantidad: number;
+}
+
+export type Cliente = {
+  id: number;
+  nombre: string;
+};
+
+export type ProductoUnion =
+  | (Producto & { tipo: "fisico"; peso: number })
+  | (Producto & { tipo: "digital"; url: string });
+
+export interface Vendible {
+  calcularPrecio(): number;
+}
+
+```
 
                                                     📂 src/index.ts
 
@@ -146,7 +168,68 @@ export interface IEntradaUsuario {
 // - 💡 Mejora: invertir la dependencia → crear una capa de abstracción
 //   donde Carrito y el flujo principal dependan de interfaces (abstracciones),
 //   y `readline` sea solo una implementación concreta inyectada.
+```ts
+// ---------------------------------------------------
+// 📂 src/index.ts
+// ---------------------------------------------------
 
+import readline from "readline";
+import { Carrito } from "./carrito";
+import { ProductoUnion, Cliente } from "./types";
+
+// ✅ Liskov Substitution Principle (LSP)
+// - Aquí puedo crear productos físicos o digitales, y usarlos en el mismo carrito.
+// - Eso demuestra que ProductoUnion respeta LSP: ambos se pueden sustituir sin romper nada.
+const cliente: Cliente = { id: 1, nombre: "Andrey" };
+
+const carrito = new Carrito(cliente);
+
+const productoFisico: ProductoUnion = {
+  id: 1,
+  nombre: "Zapatos",
+  precio: 120,
+  cantidad: 2,
+  tipo: "fisico",
+  peso: 1.5,
+};
+
+const productoDigital: ProductoUnion = {
+  id: 2,
+  nombre: "Ebook",
+  precio: 50,
+  cantidad: 1,
+  tipo: "digital",
+  url: "http://ejemplo.com/ebook",
+};
+
+carrito.agregar(productoFisico);
+carrito.agregar(productoDigital);
+
+// ❌ Interface Segregation Principle (ISP)
+// - Estoy usando directamente readline, lo que me ata a la consola.
+// - Si quisiera migrar a una app web, tendría que reescribir toda la entrada/salida.
+// - 💡 Mejora: crear interfaces como IEntradaUsuario e ISalidaUsuario
+//   y aquí solo usar la abstracción. Así puedo cambiar la implementación (consola, web, API).
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+rl.question("¿Desea imprimir el carrito? (s/n) ", (respuesta) => {
+  if (respuesta.toLowerCase() === "s") {
+    carrito.listar();
+  }
+  rl.close();
+});
+
+// ❌ Dependency Inversion Principle (DIP)
+// - index.ts depende directamente de readline (detalle de bajo nivel).
+// - Carrito y el flujo principal están acoplados a consola.
+// - 💡 Mejora: invertir la dependencia → 
+//   crear una capa abstracta de entrada/salida y que index.ts dependa de ella,
+//   mientras que readline sea solo una implementación inyectada.
+
+```
 
 
 
